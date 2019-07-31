@@ -3,4 +3,4 @@
 	url = https://github.com/rhys117/multi-docker
 [submodule "simple-docker"]
   path = docker-kubernetes-course/simple-docker
-  url = https://github.comrhys117/docker-react
+  url = https://github.com/rhys117/docker-react
