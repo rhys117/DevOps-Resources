@@ -1,0 +1,3 @@
+[submodule "complex-compose"]
+	path = docker-kubernetes-course/complex-compose
+	url = https://github.com/rhys117/multi-docker
