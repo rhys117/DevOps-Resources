@@ -4,3 +4,6 @@
 [submodule "simple-docker"]
   path = docker-kubernetes-course/simple-docker
   url = https://github.com/rhys117/docker-react
+[submodule "complex-kubernetes"]
+	path = docker-kubernetes-course/complex-kubernetes
+	url = https://github.com/rhys117/multi-k8s

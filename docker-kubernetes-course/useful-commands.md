@@ -20,6 +20,11 @@ kubectl set image deployment/client-deployment client=rhys117/multi-client:v2
 kubectl get <resource_type>/all
 ```
 
+# Apply config
+```
+kubectl apply -f <config file or dir containing configs>
+```
+
 # Delete running resources
 ```
 kubectl delete <resource_type> <name>
@@ -51,4 +56,10 @@ kubectl -n kube-system describe secret deployment-controller-token-xkksf
 Force delete pod with no grace period
 ```
 kubectl delete pod <PODNAME> --grace-period=0 --force --namespace <NAMESPACE>
+```
+
+# Creating a Secret via CL
+Create a secret (pass in with env variables to pods)
+```
+kubectl create secret generic <secret name> --from-literal(as opposed from file) key=value
 ```
