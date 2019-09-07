@@ -8,29 +8,30 @@ If you are using Docker Desktop's built-in Kubernetes, setting up the admin dash
 
   If on Mac or using GitBash on Windows enter the following:
 ```
-curl -O https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+curl -O https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta1/aio/deploy/recommended.yaml
+```
+and copy to kubernetes-dashboard.yaml
+```
+cp recommended.yaml kubernetes-dashboard.yaml
 ```
 
-3. Open up the downloaded file in your code editor and find line 116. Add the following lines underneath --auto-generate-certificates:
-```
-args:
-  - --auto-generate-certificates
-  - --enable-skip-login
-  - --disable-settings-authorizer
-```
-
-4. Run the following command inside the directory where you downloaded the dashboard yaml file a few steps ago:
+3. Run the following command inside the directory where you downloaded the dashboard yaml file a few steps ago:
 ```
 kubectl apply -f kubernetes-dashboard.yaml
 ```
-5. Start the server by running the following command:
+4. Start the server by running the following command:
 ```
 kubectl proxy
 ```
+3. Get a token
+```
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+```
 6. You can now access the dashboard by visiting:
 ```
-http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 ```
+and use your token to sign in
 7. You will be presented with a login screen:
 
 8. Click the "SKIP" link next to the SIGN IN button.
