@@ -1,0 +1,11 @@
+Swap panes
+  ⌘ + [ and ⌘ + ]
+
+Close pane
+  ⌘ + w
+
+Split vertically
+  ⌘ + d
+
+Split horizontally
+  ⌘ + ⇧ + d

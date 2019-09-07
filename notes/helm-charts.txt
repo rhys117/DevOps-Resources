@@ -1,0 +1,5 @@
+with
+  Modifies scope to supplied argument
+
+Values passed to mychart hierarchy
+  values.yaml is the default, which can be overridden by a parent chart’s values.yaml, which can in turn be overridden by a user-supplied values file, which can in turn be overridden by --set parameters.

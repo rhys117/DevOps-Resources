@@ -1,0 +1,11 @@
+ActiveRecord
+  includes >> loads the attribute of the model without firing an additional query.
+    users = User.includes(:address)
+    users.each do |user|
+      user.address.city
+    end
+
+Resources:
+  https://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations
+  https://www.sitepoint.com/silver-bullet-n1-problem/
+  https://blog.arkency.com/2013/12/rails4-preloading/

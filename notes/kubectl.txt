@@ -1,0 +1,30 @@
+Switch context to namespace in kubectl
+  kubectl config set-context --current --namespace=default
+
+Scale pod replicas back to 0
+  kubectl scale deployment/<deployment-name> --replicas=0
+
+Labels for pods
+  kubectl get pods --show-labels
+
+Working with namespace
+  kubectl get po -n <namespace>
+
+Labels targeting (+namespace for example)
+  kubectl get po -n <namespace> -l <label-key>=<label-value>
+  kubectl get po -n local-staging -l app=web-client
+
+Watch - live updates (polling)
+  kubectl get pods -w
+
+Follow output (logs) - live updates (polling)
+  kubectl logs <pod-name> -f
+  kubectl logs -l app=web-client -f
+  kubectl logs <pod-name> -n <namespace> -f
+
+Force delete all pods stuck in some form of state (for all namespaces)
+example is using `Terminating` pods
+  for ns in $(kubectl get ns --no-headers | cut -d ' ' -f1); do for po in $(kubectl -n $ns get po --no-headers --ignore-not-found | grep Terminating | cut -d ' ' -f1); do kubectl -n $ns delete po $po --force --grace-period 0; done; done;
+
+Delete all helm installs - needs to be put in a script for safety
+  helm ls --short | xargs -L1 helm del --purge

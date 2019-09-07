@@ -1,0 +1,8 @@
+Validate config file
+  circleci config validate
+
+Process locally (needed for local execute when using 2.1 config)
+  circleci config process .circleci/config.yml
+
+Execute job locally
+  circleci local execute --job <job-name>

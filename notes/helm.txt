@@ -1,0 +1,17 @@
+List releases
+  helm list
+
+Install with set release name
+  helm install --name <release-name> <helm-chart>
+
+Download existing manifest
+  helm get manifest <release-name>
+
+See preview of generated templates without applying them to cluster
+  helm install ./mychart --debug --dry-run
+
+Rollback
+  helm rollback cohortflow-production <revision_number>
+
+Purge all helm charts that have been deleted
+  DANGER ZONE: helm list --deleted --short | xargs -L1 helm delete --purge

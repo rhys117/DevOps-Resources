@@ -1,0 +1,6 @@
+Container debugging
+  Keep running (dev only)
+    tail -f /dev/null
+
+Reach localhost from container (mac only)
+  docker.for.mac.localhost

@@ -1,0 +1,25 @@
+chmod 755 "filename"
+  Position indicates: 7 (User) 5 (Group) 5 (Others)
+
+#	Permissions
+7	read, write and execute	rwx
+6	read and write	rw-
+5	read and execute	r-x
+4	read only	r--
+3	write and execute	-wx
+2	write only	-w-
+1	execute only	--x
+0	none	---
+
+# Groups
+All groups on system
+  cat /etc/group
+
+Groups user is memeber of
+  groups
+
+Add member to group
+  sudo useradd <name>
+
+Remove member from group
+  deluser <username> <groupname>

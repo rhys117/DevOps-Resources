@@ -2,3 +2,8 @@
 **/node_modules
 **/build
 **/.DS_Store
+terminal/cohort_only.sh
+terminal/commands/ku-update-gcr
+terminal/commands/ngrok
+notes/might-need-work.txt
+notes/stackdriver-logs.txt

@@ -1,0 +1,21 @@
+## Copy Mode
+Enter copy mode with cmd+shift+c.
+Basic Vim keybinding, many keystrokes can active different actions.
+- v to select by character.
+- shift+v to select by line.
+- ctrl+v for rectangular selection.
+- ctrl+space to stop selecting.
+- y to yank/copy the selection (also exits copy mode).
+- q to exit copy mode.
+Can chain off of iTerm2’s search feature.
+
+## Search Copy
+Searching for some text using cmd+f.
+Use enter to move to the next search result.
+Use shift+enter to move to the previous search result.
+Navigate until you are on the desired location.
+Use tab to expand your search to the next word.
+Use shift+tab to expand your search to the previous word.
+Although it moves to the previous search result if one exists.
+When your search term is selected, use cmd+c to copy the selection.
+Use esc to exit search, and now you have the selection in your clipboard.

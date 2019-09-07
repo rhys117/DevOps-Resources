@@ -1,0 +1,17 @@
+Push current branch
+  git push -u origin feature_branch_name.
+
+Change files on current branch to match checked out branch
+  git checkout master -- db/schema.rb
+
+Show differences between branch and master
+  git diff --staged
+
+Clone branch (useful for testing in Docker images)
+  git clone --single-branch --branch <branchname> <remote-repo>
+
+Rename branch
+  git branch -m new-name
+
+  From another branch
+    git branch -m old-name new-name
