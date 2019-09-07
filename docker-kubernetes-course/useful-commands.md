@@ -59,7 +59,7 @@ kubectl delete pod <PODNAME> --grace-period=0 --force --namespace <NAMESPACE>
 ```
 
 # Creating a Secret via CL
-Create a secret (pass in with env variables to pods)
+Create a secret from literal (as opposed from file). Can be pased into pods as env.
 ```
-kubectl create secret generic <secret name> --from-literal(as opposed from file) key=value
+kubectl create secret generic <secret name> --from-literal key=<value>
 ```
