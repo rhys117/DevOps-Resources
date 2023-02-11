@@ -10,8 +10,18 @@ if [[ $PATH != *"$COMMANDS_PATH"* ]]; then
   export PATH="$PATH:$COMMANDS_PATH"
 fi
 
+# Ensure in correct brew context
+if [[ $(arch) == "arm64" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+else
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
 # Specify default editor. Possible values: vim, nano, ed etc.
 export EDITOR=nano
+export QUICK_FILE_EDITOR=code
 
 # File search functions
 function f() { find . -iname "*$1*" ${@:2} }
@@ -20,8 +30,8 @@ function r() { grep "$1" ${@:2} -R . }
 # Create a folder and move into it in one command
 function mkcd() { mkdir -p "$@" && cd "$_"; }
 
-# Create file and open in atom
-function touch-atom { touch "$@" && atom "$_"; }
+# Create file and open in the set quick editor
+function touch-open { touch "$@" && $QUICK_FILE_EDITOR "$_"; }
 
 # Search history
 function search-history { history | grep "$@" }
@@ -34,48 +44,82 @@ function ku-follow-logs {
   kubectl logs -l $@ -f
 }
 
-# Kubernetes quick context switch
-function ku-change-context {
-  CONTEXT=${1:-docker-desktop}
-  NAMESPACE=${2:-default}
-  echo "Setting up context..."
-  kubectl config set-context $CONTEXT --namespace=$NAMESPACE
-  echo "Switching to context..."
-  kubectl config use-context $CONTEXT
-  echo "Now using following context and namepace..."
-  kubectl config current-context
-  SET_NAMESPACE="$(kubectl config view --minify --output 'jsonpath={..namespace}')"
-  echo $SET_NAMESPACE
-
-  if [[ $SET_NAMESPACE == 'production' ]]; then
-    echo "==============WARNING=============="
-    echo "============PRODUCTION============="
-    echo "=============NAMESPACE============="
-  fi
+function rspec-gmt {
+  sudo systemsetup -settimezone Atlantic/Reykjavik
+  rspec "$@"
+  sudo systemsetup -settimezone Australia/Brisbane
 }
+
+# Kubernetes quick context switch
+# function ku-change-context {
+#   CONTEXT=${1:-docker-desktop}
+#   NAMESPACE=${2:-default}
+#   echo "Setting up context..."
+#   kubectl config set-context $CONTEXT --namespace=$NAMESPACE
+#   echo "Switching to context..."
+#   kubectl config use-context $CONTEXT
+#   echo "Now using following context and namepace..."
+#   kubectl config current-context
+#   SET_NAMESPACE="$(kubectl config view --minify --output 'jsonpath={..namespace}')"
+#   echo $SET_NAMESPACE
+#
+#   if [[ $SET_NAMESPACE == 'production' ]]; then
+#     echo "==============WARNING=============="
+#     echo "============PRODUCTION============="
+#     echo "=============NAMESPACE============="
+#   fi
+# }
+
+# Dir name as tab title
+if [ $ITERM_SESSION_ID ]; then
+  export PROMPT_COMMAND='echo -ne "\033];${PWD##*/}\007"; ':"$PROMPT_COMMAND";
+fi
 
 # Command aliases
 alias g='git'
 alias c='clear'
 alias ku="kubectl"
 alias ku-watch-pods="kubectl get pods -w"
-alias ku-context-local="ku-change-context docker-desktop"
+# alias ku-context-local="ku-change-context docker-desktop"
+alias sandbox="rails c --sandbox"
 
 # Folder aliases
 alias playground="~/Playground"
 alias scripts="~/scripts-and-dev-tools"
-alias logs="/Users/rhys-murray/scripts-and-dev-tools/logs"
+alias logs="/Users/rhysmurray/scripts-and-dev-tools/logs"
 alias ll="ls -lhA"
 
 # File aliases
-alias cli-commands="atom ~/scripts-and-dev-tools/bash_commands/zsh_env.sh"
-alias survival-guide="atom ~/Documents/survival-guide.md"
+alias zsh-env-file="$QUICK_FILE_EDITOR ~/scripts-and-dev-tools/devops-resources/terminal/zsh_env.sh"
+alias survival-guide="$QUICK_FILE_EDITOR ~/Documents/survival-guide.md"
+
+# Generic useful
+alias tail-puma="tail -f ~/Library/Logs/puma-dev.log"
 
 # Yaml lint ignore line length
 alias yamllint-relaxed='yamllint -d "{extends: relaxed, rules: {line-length: disable}}"'
 
+# Ensure load correct node version
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  elif [ "$node_version" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
 # Workaround for starting blank line when opening new terminal tab
 clear
-
-# Remind self of kubernetes context
-echo Context when terminal opened: $(kubectl config current-context)

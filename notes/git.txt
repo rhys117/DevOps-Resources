@@ -15,3 +15,18 @@ Rename branch
 
   From another branch
     git branch -m old-name new-name
+
+Copy a commit from another branch without committing
+  git cherry-pick <commit-hash> --no-commit
+
+Rebase against master (useful for going from my-working branch > New feature branch)
+  git pull --rebase origin master
+
+Delete remote branch
+  git push <remote_name> --delete <branch_name>
+
+Apply global git hooks
+  git config --global core.hooksPath /path/to/my/centralized/hooks
+
+Set remote url
+  git remote set-url origin git@github.com:username/repo.git

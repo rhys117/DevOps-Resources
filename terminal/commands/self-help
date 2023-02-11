@@ -22,10 +22,10 @@ if [[ $2 == '-add' ]]; then
   cd $HELP_FILES_PATH || exit 1
 
   if [ -f "$FILENAME" ]; then
-    atom $FILENAME
+    $QUICK_FILE_EDITOR $FILENAME
   else
     touch $FILENAME
-    atom $FILENAME
+    $QUICK_FILE_EDITOR $FILENAME
   fi
 
   cd $PREVIOUS_PATH || exit 1
